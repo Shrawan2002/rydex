@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const mongodbUrl = process.env.MONGODB_URL
+const mongodbUrl = process.env.MONGODB_URL;
   
 
 if(!mongodbUrl){
@@ -15,7 +15,12 @@ if(!cached){
 
 const connectDb = async ()=>{
     if(cached.conn){
-        return cached
+        console.log("already connected");
+        return cached.conn;
+    }
+
+    if(cached.promise){
+        console.log("already connecting");
     }
 
     if(!cached.promise){
@@ -23,8 +28,9 @@ const connectDb = async ()=>{
     }
 
     try{
-        const conn = await cached.promise
-        return conn
+        const conn = await cached.promise;
+        cached.conn = conn;
+        return conn;
     }catch(error){
         console.log(error)
     }
