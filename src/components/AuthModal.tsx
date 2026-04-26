@@ -1,3 +1,6 @@
+"use client";
+import { motion } from "motion/react";
+import { X } from "lucide-react";
 
 type AuthModalProps = {
     open: boolean;
@@ -5,15 +8,32 @@ type AuthModalProps = {
 }
 
 export default function AuthModal({ open, onClose }: AuthModalProps) {
-    if (!open) return null;
-    
+  
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded shadow-lg w-96">
-                <h2 className="text-2xl font-bold mb-4">Sign In</h2>
-                <button className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition mb-4">Sign in with Google</button>
-                <button className="w-full px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">Sign in with Email</button>
-            </div>
-        </div>
+        <>
+        {open && (
+            <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={onClose}
+                className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md"
+            >
+                <motion.div 
+                initial={{opacity:0, scale:0.95, y:40}}
+                animate= {{opacity:1, scale: 1, y:0}}
+                transition= {{duration: 0.35, ease: "easeOut" }}
+                className = "fixed inset-0 flex items-center justify-center px-4"
+                >
+                    <div className = "relative w-full max-w-md rounded-3xl bg-white border border-black/10 shadow-[0_40px_100px_rgba(0,0,0,0.35)] p-6 sm:p-8 text-black">
+                    <div className= "absolute top-4 right-4 cursor-pointer text-gray-500 hover:text-gray-700" onClick={onClose}>
+                        <X size={20}/>
+                    </div>
+                    </div>
+
+                </motion.div>
+            </motion.div>
+        )}
+        </>
     )
 }       
